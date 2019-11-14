@@ -160,6 +160,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 btn.addEventListener("click", e => {
                     e.preventDefault();
                     this.currentStep++;
+                    if (this.currentStep === 3) {
+                        $.get({
+                            url: 'http://localhost:8080/donation/institutions'
+                        }).done(result => {
+                            let $divStep3 = $('div[data-step="3"]');
+                            for (let i = 0; i < result.length; i++) {
+                                let $div = $(`
+                                              <div class="form-group form-group--checkbox">
+                                                <label>
+                                                    <input type="radio" name="organization" value="${result[i].id}" />
+                                                    <span class="checkbox radio"></span>
+                                                    <span class="description">
+                                                        <div class="title">${result[i].name}</div>
+                                                        <div class="subtitle">${result[i].description}</div>
+                                                    </span>
+                                                </label>
+                                              </div>
+                                `);
+                                $div.insertBefore($divStep3.find('.form-group--buttons'));
+                            }
+                        });
+                    }
                     this.updateForm(true);
                 });
             });
@@ -202,6 +224,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     case 2:
                         this.$donation.quantity = $('.form-group--inline input[name="bags"]').val();
+                        break;
+
+                    case 3:
+                        const $checkedRadio = $('input[type="radio"]:checked');
+                        this.$donation.institution.id = $checkedRadio.val();
+                        this.$donation.institution.name = $checkedRadio.siblings().find('.title').text();
+                        this.$donation.institution.description = $checkedRadio.siblings().find('.subtitle').text();
                         break;
 
                     default:
