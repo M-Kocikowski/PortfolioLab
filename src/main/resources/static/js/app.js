@@ -200,6 +200,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                         break;
 
+                    case 2:
+                        this.$donation.quantity = $('.form-group--inline input[name="bags"]').val();
+                        break;
+
                     default:
                         break;
                 }
