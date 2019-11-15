@@ -233,6 +233,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         this.$donation.institution.description = $checkedRadio.siblings().find('.subtitle').text();
                         break;
 
+                    case 4:
+                        this.$donation.street = $('input[name="address"]').val();
+                        this.$donation.city = $('input[name="city"]').val();
+                        this.$donation.zipCode = $('input[name="postcode"]').val();
+                        this.$donation.pickUpDate = $('input[name="data"]').val();
+                        this.$donation.pickUpTime = $('input[name="time"]').val();
+                        this.$donation.pickUpComments = $('textarea[name="more_info"]').val();
+                        break;
+
                     default:
                         break;
                 }
