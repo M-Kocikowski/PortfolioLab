@@ -3,10 +3,8 @@ package pl.coderslab.charity.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,5 +19,9 @@ public class Institution {
 
     @Setter
     private String description;
+
+    @Setter
+    @ManyToMany
+    private List<Category> categories;
 
 }

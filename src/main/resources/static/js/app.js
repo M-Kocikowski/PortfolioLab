@@ -161,10 +161,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     e.preventDefault();
                     this.currentStep++;
                     if (this.currentStep === 3) {
+                        const categories = [];
+                        for(let i = 0; i < this.$donation.categories.length; i++){
+                            categories.push(this.$donation.categories[i].id);
+                        }
+                        $('div[data-step="3"] .form-group--checkbox').remove();
                         $.get({
-                            url: 'http://localhost:8080/donation/institutions'
+                            url: `http://localhost:8080/donation/institutions?categories=${categories.toString()}`
                         }).done(result => {
-                            let $divStep3 = $('div[data-step="3"]');
                             for (let i = 0; i < result.length; i++) {
                                 let $div = $(`
                                               <div class="form-group form-group--checkbox">
@@ -178,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                 </label>
                                               </div>
                                 `);
-                                $div.insertBefore($divStep3.find('.form-group--buttons'));
+                                $div.insertBefore($('div[data-step="3"]').find('.form-group--buttons'));
                             }
                         });
                     }
