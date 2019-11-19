@@ -42,7 +42,10 @@ public class DonationController {
 
     @GetMapping("/institutions")
     @ResponseBody
-    public List<Institution> getAllInstitutions(@RequestParam String categories) {
+    public List<Institution> getAllInstitutions(@RequestParam(defaultValue = "") String categories) {
+        if (categories.isEmpty()){
+            return null;
+        }
         String[] categoriesArray = categories.split(",");
         Arrays.stream(categoriesArray).forEach(System.out::println);
         List<Institution> institutionList =
