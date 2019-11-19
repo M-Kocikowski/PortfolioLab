@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     this.currentStep++;
                     if (this.currentStep === 3) {
                         const categories = [];
-                        for(let i = 0; i < this.$donation.categories.length; i++){
+                        for (let i = 0; i < this.$donation.categories.length; i++) {
                             categories.push(this.$donation.categories[i].id);
                         }
                         $('div[data-step="3"] .form-group--checkbox').remove();
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             url: `http://localhost:8080/donation/institutions?categories=${categories.toString()}`
                         }).done(result => {
                             for (let i = 0; i < result.length; i++) {
-                                let $div = $(`
+                                const $div = $(`
                                               <div class="form-group form-group--checkbox">
                                                 <label>
                                                     <input type="radio" name="organization" value="${result[i].id}" />
@@ -244,6 +244,38 @@ document.addEventListener("DOMContentLoaded", function () {
                         this.$donation.pickUpDate = $('input[name="data"]').val();
                         this.$donation.pickUpTime = $('input[name="time"]').val();
                         this.$donation.pickUpComments = $('textarea[name="more_info"]').val();
+
+                        let summaryText = '';
+                        for (let i = 0; i < this.$donation.categories.length; i++){
+                            summaryText += `${this.$donation.categories[i].name}, `;
+                        }
+
+                        switch (this.$donation.quantity) {
+                            case '1':
+                                summaryText += `${this.$donation.quantity} worek do oddania`;
+                                break;
+
+                            case '2':
+                            case '3':
+                            case '4':
+                                summaryText += `${this.$donation.quantity} worki do oddania`;
+                                break;
+
+                            default:
+                                summaryText += `${this.$donation.quantity} worków do oddania`;
+                                break;
+                        }
+
+                        const $span = $('span.summary--text');
+                        $span.first().text(summaryText);
+                        $span.last().text(`Dla fundacji ${this.$donation.institution.name}`);
+                        $('#street').text(this.$donation.street);
+                        $('#city').text(this.$donation.city);
+                        $('#zip-code').text(this.$donation.zipCode);
+                        $('#phone').text($('input[name="phone"]').val());
+                        $('#pick-date').text(this.$donation.pickUpDate);
+                        $('#pick-time').text(this.$donation.pickUpTime);
+                        $('#pick-comments').text(this.$donation.pickUpComments);
                         break;
 
                     default:
