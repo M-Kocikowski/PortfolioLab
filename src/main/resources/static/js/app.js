@@ -200,7 +200,16 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             // Form submit
-            this.$form.querySelector("form").addEventListener("submit", e => this.submit(e));
+            this.$form.querySelector("form").addEventListener("submit", (e) => {
+                e.preventDefault();
+                $.post({
+                    url: 'http://localhost:8080/donation',
+                    data: JSON.stringify(this.$donation),
+                    contentType: 'application/json'
+                }).done((res) => {
+//                    console.log(res);
+                })
+            });
         }
 
         /**
@@ -296,7 +305,6 @@ document.addEventListener("DOMContentLoaded", function () {
             this.$stepInstructions[0].parentElement.parentElement.hidden = this.currentStep >= 5;
             this.$step.parentElement.hidden = this.currentStep >= 5;
 
-            // TODO: get data from inputs and show them in summary
         }
 
     }
