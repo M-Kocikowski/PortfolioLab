@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     data: JSON.stringify(this.$donation),
                     contentType: 'application/json'
                 }).done((res) => {
-//                    console.log(res);
+                    $('html').html(res);
                 })
             });
         }
